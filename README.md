@@ -18,12 +18,22 @@
 - Command: g++ main.o -o main
 - Produces: main.out (.exe for Windows)
 
-### Compiler Flags
+### Compiler Flags (https://gcc.gnu.org/onlinedocs/gcc/Option-Summary.html)
 
 - Debug: ```-g```
 - Release: ```-O0 -O1 -O2 -O3 -Og```
 - Includes: ```-I```
 - Warnings: ```-Wall -Wextra -Wpedantic -Wconversion```
+
+```
+CFLAGS	Compiler flags for C (gcc, clang)
+CPPFLAGS	Preprocessor flags (for #define, #include)
+CXXFLAGS	Compiler flags for C++ (g++, clang++)
+
+✅ Use CPPFLAGS for -D (defines) and -I (include paths).
+✅ Use CFLAGS/CXXFLAGS for -O, -Wall, -std=c++17, etc.
+✅ Use LDFLAGS for -L (library paths) and -l (linking).
+```
 
 ## Makefile Commands of the Template
 
@@ -98,3 +108,13 @@ Run the executable in either Debug or Release mode.
 - ```$@```: the file name of the target
 - ```$<```: the name of the first dependency
 - ```$^```: the names of all dependencies
+
+
+### Using docker to build (integrate with docker)
+
+```
+cd integrate_docker
+make run_docker
+```
+
+Referency link: https://github.com/Tamabcxyz/Docker_Project
