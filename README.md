@@ -117,4 +117,64 @@ cd integrate_docker
 make run_docker
 ```
 
+### Somethings's intriguing
+- ```define```: define a function to call in makefile
+```
+define greet
+	echo "Good morning, $(1)!"
+endef
+
+main:
+	$(call greet,ABC)
+```
+- ```eval + call```: combining eval with call is a powerful way to generate dynamic Makefile content
+```
+#This will dynamically create rules for foo, bar, and baz, each depending on .c files in their respective src/ subdirectories.
+
+define make_rule
+$(1): $$(wildcard src/$(1)/*.c)
+	$$(CC) $$^ -o $$@
+endef
+
+$(foreach bin,foo bar baz,$(eval $(call make_rule,$(bin))))
+```
+- ```strip```: remove redundant space
+```
+RAW :=   hello     world    
+CLEAN := $(strip $(RAW))
+
+all:
+	echo '$(CLEAN)'
+```
+- ```findstring```: check if one string contains another
+```
+ifneq ($(findstring Linux,$(OS)),)
+    MESSAGE := "Running on Linux"
+else
+    MESSAGE := "Not Linux"
+endif
+```
+- ```addsuffix + addprefix```: 
+```
+# SRC => main.c util.c math.c
+# OBJ => build/main.o build/util.o build/math.o
+FILES := main util math
+SRC := $(addsuffix .c, $(FILES))
+OBJ := $(addprefix build/, $(FILES:.c=.o))
+```
+- ```subst```: Simple Text Replacement (text is a string literal)
+```
+# $(subst from,to,text)
+# Replaces every occurrence of from with to in text
+$(subst .c,.o,main.c util.c) → main.o util.o
+```
+- ```patsubst```: Pattern-Based Substitution (text is a pattern)
+```
+# $(patsubst pattern,replacement,text)
+# Works on whitespace-separated words in text.
+# pattern can include % as a wildcard.
+# Replaces each word that matches the pattern.
+$(patsubst %.c,%.o,build/main.c build/util.c) → main.o util.o
+```
+
 Referency link: https://github.com/Tamabcxyz/Docker_Project
